@@ -2,21 +2,31 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/nav_dashboard">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.vibes.dsrapp.ui.HomeFragment"
-        android:label="DSR Records" />
-
-    <fragment
-        android:id="@+id/nav_entry"
-        android:name="com.vibes.dsrapp.ui.EntryFragment"
-        android:label="New Entry" />
+        android:id="@+id/nav_dashboard"
+        android:name="com.vibes.dsrapp.ui.DashboardFragment"
+        android:label="Dashboard" />
 
     <fragment
         android:id="@+id/nav_retailers"
-        android:name="com.vibes.dsrapp.ui.RetailersFragment"
+        android:name="com.vibes.dsrapp.ui.RetailerEntryFragment"
         android:label="Retailers" />
+
+    <fragment
+        android:id="@+id/nav_credit"
+        android:name="com.vibes.dsrapp.ui.CreditEntryFragment"
+        android:label="Credit" />
+
+    <fragment
+        android:id="@+id/nav_debit"
+        android:name="com.vibes.dsrapp.ui.DebitEntryFragment"
+        android:label="Debit" />
+
+    <fragment
+        android:id="@+id/nav_remarks"
+        android:name="com.vibes.dsrapp.ui.RemarksEntryFragment"
+        android:label="Remarks" />
 
 </navigation>

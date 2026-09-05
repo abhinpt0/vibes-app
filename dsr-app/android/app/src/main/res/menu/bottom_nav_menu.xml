@@ -2,18 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_home"
-        android:title="Records"
-        android:icon="@android:drawable/ic_menu_agenda" />
-
-    <item
-        android:id="@+id/nav_entry"
-        android:title="New Entry"
-        android:icon="@android:drawable/ic_input_add" />
+        android:id="@+id/nav_dashboard"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Dashboard" />
 
     <item
         android:id="@+id/nav_retailers"
-        android:title="Retailers"
-        android:icon="@android:drawable/ic_menu_manage" />
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Retailers" />
+
+    <item
+        android:id="@+id/nav_credit"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Credit" />
+
+    <item
+        android:id="@+id/nav_debit"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Debit" />
+
+    <item
+        android:id="@+id/nav_remarks"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="Remarks" />
 
 </menu>

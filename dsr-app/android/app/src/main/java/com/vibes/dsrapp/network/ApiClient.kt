@@ -1,6 +1,7 @@
 package com.vibes.dsrapp.network
 
 import com.google.gson.Gson
+import com.vibes.dsrapp.model.SubmitPayload
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
@@ -40,6 +41,10 @@ object ApiClient {
     // ── POST ─────────────────────────────────────────────────────────────────
 
     suspend fun submitDSR(payload: Any): Result<String> = withContext(Dispatchers.IO) {
+        post(gson.toJson(payload))
+    }
+
+    suspend fun submitAll(payload: SubmitPayload): Result<String> = withContext(Dispatchers.IO) {
         post(gson.toJson(payload))
     }
 
