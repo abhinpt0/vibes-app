@@ -378,7 +378,33 @@
                 android:minLines="2" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Progress + Submit -->
+        <!-- ── RETAILER TRANSACTIONS ─────────────────────── -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RETAILER TRANSACTIONS"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:background="#E3F2FD"
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:id="@+id/retailerRowsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/btnAddRetailerRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Add Retailer Row"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_gravity="start"
+            android:layout_marginBottom="16dp" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"

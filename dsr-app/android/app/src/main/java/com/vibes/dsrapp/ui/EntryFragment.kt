@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.textfield.TextInputEditText
+import com.vibes.dsrapp.R
 import com.vibes.dsrapp.databinding.FragmentEntryBinding
+import com.vibes.dsrapp.databinding.ItemRetailerTransactionBinding
 import com.vibes.dsrapp.model.DsrEntry
-import com.vibes.dsrapp.model.RetailerEntry
+import com.vibes.dsrapp.model.RetailerTransaction
 import com.vibes.dsrapp.viewmodel.DsrViewModel
 import com.vibes.dsrapp.viewmodel.UiState
 import java.text.SimpleDateFormat
@@ -22,6 +26,15 @@ class EntryFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: DsrViewModel by activityViewModels()
     private var selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
+    private val retailers = listOf(
+        "Prompt", "Fantasy", "Falcon", "Cell city", "Fixit",
+        "Iswarya statio", "Smartech", "SM online", "Mobile mart",
+        "Vibes (Mobicare)", "Sbi Service", "Fono", "Tk Store", "Mobi time", "KKM"
+    )
+
+    // Holds a reference to each retailer row's binding so we can read values on submit
+    private val retailerRowBindings = mutableListOf<ItemRetailerTransactionBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentEntryBinding.inflate(inflater, container, false)
@@ -35,7 +48,10 @@ class EntryFragment : Fragment() {
         binding.btnPickDate.text = selectedDate
         binding.btnPickDate.setOnClickListener { showDatePicker() }
 
-        // Submit button
+        // Add retailer row
+        binding.btnAddRetailerRow.setOnClickListener { addRetailerRow() }
+
+        // Submit
         binding.btnSubmit.setOnClickListener { submitForm() }
 
         // Observe submit result
@@ -60,6 +76,26 @@ class EntryFragment : Fragment() {
         }
     }
 
+    private fun addRetailerRow() {
+        val rowBinding = ItemRetailerTransactionBinding.inflate(
+            LayoutInflater.from(requireContext()), binding.retailerRowsContainer, false
+        )
+
+        // Populate spinner
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, retailers)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        rowBinding.spinnerRetailer.adapter = adapter
+
+        // Remove button
+        rowBinding.btnRemoveRow.setOnClickListener {
+            binding.retailerRowsContainer.removeView(rowBinding.root)
+            retailerRowBindings.remove(rowBinding)
+        }
+
+        binding.retailerRowsContainer.addView(rowBinding.root)
+        retailerRowBindings.add(rowBinding)
+    }
+
     private fun showDatePicker() {
         val cal = Calendar.getInstance()
         DatePickerDialog(requireContext(), { _, y, m, d ->
@@ -70,6 +106,18 @@ class EntryFragment : Fragment() {
 
     private fun d(text: String?) = text?.toDoubleOrNull() ?: 0.0
     private fun i(text: String?) = text?.toIntOrNull() ?: 0
+
+    private fun collectRetailerRows(): List<RetailerTransaction> =
+        retailerRowBindings.map { r ->
+            RetailerTransaction(
+                date      = selectedDate,
+                retailer  = r.spinnerRetailer.selectedItem?.toString() ?: "",
+                forward   = d(r.etForward.text.toString()),
+                reverse   = d(r.etReverse.text.toString()),
+                pgStock   = d(r.etPgStock.text.toString()),
+                credit    = d(r.etCredit.text.toString())
+            )
+        }
 
     private fun submitForm() {
         val b = binding
@@ -106,7 +154,8 @@ class EntryFragment : Fragment() {
             odReceived                 = d(b.etOdReceived.text.toString()),
             valueReceived              = d(b.etValueReceived.text.toString()),
             odSettlement               = d(b.etOdSettlement.text.toString()),
-            remarks                    = b.etRemarks.text.toString()
+            remarks                    = b.etRemarks.text.toString(),
+            retailerTransactions       = collectRetailerRows()
         )
         viewModel.submitDSR(entry)
     }
@@ -126,6 +175,9 @@ class EntryFragment : Fragment() {
             binding.etRemarks
         )
         fields.forEach { it.text?.clear() }
+        // Clear retailer rows
+        binding.retailerRowsContainer.removeAllViews()
+        retailerRowBindings.clear()
     }
 
     override fun onDestroyView() {

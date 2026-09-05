@@ -5,8 +5,9 @@
 // ============================================================
 
 var SPREADSHEET_ID = SpreadsheetApp.getActiveSpreadsheet().getId();
-var DATA_SHEET_NAME = "DSR_Data";       // flat data sheet (app writes here)
-var RETAILER_SHEET_NAME = "Retailers";  // retailer master list
+var DATA_SHEET_NAME = "DSR_Data";                    // flat daily summary
+var RETAILER_SHEET_NAME = "Retailers";               // retailer master list
+var RETAILER_TXN_SHEET_NAME = "Retailer_Transactions"; // per-retailer daily rows
 
 // ─────────────────────────────────────────────
 // GET  →  /exec?action=getDSR&date=2025-07-10
@@ -24,6 +25,8 @@ function doGet(e) {
     } else if (action === "getDSRList") {
       var limit = parseInt(e.parameter.limit) || 30;
       return jsonResponse(getDSRList(limit));
+    } else if (action === "getRetailerTransactions") {
+      return jsonResponse(getRetailerTransactions(e.parameter.date));
     } else {
       return jsonResponse({ error: "Unknown action: " + action });
     }
@@ -121,12 +124,36 @@ function submitDSR(p) {
     new Date().toISOString()
   ]);
 
-  // Also update retailer balances if provided
-  if (p.retailer_entries && Array.isArray(p.retailer_entries)) {
-    p.retailer_entries.forEach(function(r) { updateRetailerBalance(r); });
+  // Write retailer transaction rows if provided
+  if (p.retailer_transactions && Array.isArray(p.retailer_transactions)) {
+    saveRetailerTransactions(p.date, p.retailer_transactions);
   }
 
   return { status: "success", message: "DSR saved for " + p.date };
+}
+
+// ─────────────────────────────────────────────
+// SAVE retailer transaction rows
+// ─────────────────────────────────────────────
+function saveRetailerTransactions(date, rows) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(RETAILER_TXN_SHEET_NAME);
+
+  if (!sheet) {
+    sheet = ss.insertSheet(RETAILER_TXN_SHEET_NAME);
+    sheet.appendRow(["date", "retailer", "forward", "reverse", "pg_stock", "credit"]);
+  }
+
+  rows.forEach(function(r) {
+    sheet.appendRow([
+      date || r.date || "",
+      r.retailer || "",
+      r.forward || 0,
+      r.reverse || 0,
+      r.pg_stock || 0,
+      r.credit || 0
+    ]);
+  });
 }
 
 // ─────────────────────────────────────────────
@@ -202,6 +229,24 @@ function updateRetailerBalance(r) {
   sheet.appendRow([r.ret_name, r.opening || 0, r.forward || 0, r.reverse || 0,
     r.pg_sock_fwd_cash_paid || 0, r.credit || 0, r.balance || 0]);
   return { status: "added", ret_name: r.ret_name };
+}
+
+// ─────────────────────────────────────────────
+// GET retailer transactions (optionally filter by date)
+// ─────────────────────────────────────────────
+function getRetailerTransactions(date) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(RETAILER_TXN_SHEET_NAME);
+  if (!sheet) return [];
+
+  var data = sheet.getDataRange().getValues();
+  if (data.length < 2) return [];
+
+  var headers = data[0];
+  var rows = data.slice(1);
+  if (date) {
+    rows = rows.filter(function(r) { return String(r[0]) === date; });
+  }
+  return rows.map(function(row) { return rowToObject(headers, row); });
 }
 
 // ─────────────────────────────────────────────

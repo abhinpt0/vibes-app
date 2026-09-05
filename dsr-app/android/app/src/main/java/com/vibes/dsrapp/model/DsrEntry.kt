@@ -48,7 +48,7 @@ data class DsrEntry(
     @SerializedName("od_settlement")                 val odSettlement: Double = 0.0,
 
     @SerializedName("remarks")                       val remarks: String = "",
-    @SerializedName("retailer_entries")              val retailerEntries: List<RetailerEntry> = emptyList(),
+    @SerializedName("retailer_transactions")         val retailerTransactions: List<RetailerTransaction> = emptyList(),
 
     // action field for POST
     @SerializedName("action")                        val action: String = "submitDSR"
