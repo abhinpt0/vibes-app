@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Date"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_marginBottom="16dp" />
 
         <!-- ── CREDIT SECTION ─────────────────────────────────── -->
@@ -29,7 +29,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Opening Cash" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etOpeningCash"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Jio Collection – Aswanth (Onchiam Market)" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etJioAswanth"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Jio Collection – TMK + CK" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etJioTmk"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PayBingo Collection" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPaybingoCollection"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PG Charge" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPgCharge"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PayBingo ID Sale" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPaybingoIdSale"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PayBingo Online Transfer" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPaybingoOnline"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Self Deposit (CDM SBI)" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etSelfDeposit"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Reverse From Retailer" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etReverseFromRetailer"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="UPI Transfer" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etUpiTransfer"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Vibes Deposit – BOB" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etVibesBob"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Vibes Deposit – SBI 5859" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etVibesSbi"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Vibes Deposit – Canara" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etVibesCanara"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PayBingo SBI Deposit (SBI 3696)" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPbSbi3696"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PayBingo Deposit – PNB" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPbPnb"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PayBingo SBI Deposit – HDFC" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPbHdfc"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PayBingo Deposit – Online Stock Received" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPbOnlineStock"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PayBingo Deposit – Other" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPbOther"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Cash Paid Against Reverse" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCashPaidReverse"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -231,7 +231,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="UPI Against Reverse" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etUpiReverse"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -241,7 +241,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="PG Stock Adjust – Vibes" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPgStockVibes"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -259,7 +259,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:hint="₹500" android:layout_marginEnd="4dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNotes500"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -268,7 +268,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:hint="₹200" android:layout_marginStart="4dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNotes200"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -281,7 +281,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:hint="₹100" android:layout_marginEnd="4dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNotes100"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -290,7 +290,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:hint="₹50" android:layout_marginStart="4dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNotes50"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -303,7 +303,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:hint="₹20" android:layout_marginEnd="4dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNotes20"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -312,7 +312,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:hint="₹10" android:layout_marginStart="4dp"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNotes10"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -323,7 +323,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="₹5 notes" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNotes5"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -339,7 +339,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="OD Received" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etOdReceived"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -349,7 +349,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Value Received" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etValueReceived"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -359,7 +359,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="OD Settlement" android:layout_marginBottom="8dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etOdSettlement"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -370,7 +370,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:hint="Remarks" android:layout_marginTop="8dp" android:layout_marginBottom="16dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etRemarks"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
