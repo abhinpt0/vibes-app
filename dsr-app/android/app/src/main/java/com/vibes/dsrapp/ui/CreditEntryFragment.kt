@@ -75,12 +75,16 @@ class CreditEntryFragment : Fragment() {
 
         val listAdapter = CreditTxnAdapter(
             onEdit = { txn -> showEditDialog(txn) },
-            onDelete = { txn -> vm.deleteCredit(txn) }
+            onDelete = { txn -> confirmDelete(txn) }
         )
         binding.rvCreditTxns.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCreditTxns.adapter = listAdapter
 
-        vm.getCreditTxns(dsrDate).observe(viewLifecycleOwner) { listAdapter.submitList(it) }
+        vm.getCreditTxns(dsrDate).observe(viewLifecycleOwner) {
+            listAdapter.submitList(it)
+            binding.tvCreditEmpty.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            binding.rvCreditTxns.visibility  = if (it.isEmpty()) View.GONE  else View.VISIBLE
+        }
 
         binding.btnAddCredit.setOnClickListener {
             val selectedItem = binding.spinnerCreditParticular.selectedItem.toString()
@@ -165,6 +169,15 @@ class CreditEntryFragment : Fragment() {
     }
 
     // ── Adapter ───────────────────────────────────────────────────────────────
+
+    private fun confirmDelete(txn: CreditTxn) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Entry")
+            .setMessage("Delete credit entry: ${txn.particular} — ₹${txn.amount.toLong()}?")
+            .setPositiveButton("DELETE") { _, _ -> vm.deleteCredit(txn) }
+            .setNegativeButton("CANCEL", null)
+            .show()
+    }
 
     inner class CreditTxnAdapter(
         private val onEdit: (CreditTxn) -> Unit,

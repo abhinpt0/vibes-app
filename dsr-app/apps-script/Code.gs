@@ -4,15 +4,11 @@
 // Deploy as Web App → Execute as: Me → Who has access: Anyone
 // ============================================================
 
-var SPREADSHEET_ID = SpreadsheetApp.getActiveSpreadsheet().getId();
-
-// Sheet names for the new 4-section data model
+// Sheet names for the 4-section data model
 var SHEET_RETAILER_TXN = "Retailer_Txn";
 var SHEET_CREDIT_TXN   = "Credit_Txn";
 var SHEET_DEBIT_TXN    = "Debit_Txn";
 var SHEET_REMARK_TXN   = "Remark_Txn";
-
-// Kept for backward-compatible GET actions
 var RETAILER_SHEET_NAME = "Retailers";
 
 // ─────────────────────────────────────────────
@@ -21,13 +17,12 @@ var RETAILER_SHEET_NAME = "Retailers";
 //         /exec?action=getSummary&date=2026-09-05
 // ─────────────────────────────────────────────
 function doGet(e) {
-  var action = e.parameter.action || "getDSRList";
-
+  var action = (e && e.parameter && e.parameter.action) ? e.parameter.action : "getDSRList";
   try {
     if (action === "getRetailers") {
       return jsonResponse(getRetailers());
     } else if (action === "getDSRList") {
-      var limit = parseInt(e.parameter.limit) || 30;
+      var limit = parseInt((e.parameter && e.parameter.limit) || 30);
       return jsonResponse(getDSRList(limit));
     } else if (action === "getSummary") {
       return jsonResponse(getSummary(e.parameter.date));
@@ -35,15 +30,18 @@ function doGet(e) {
       return jsonResponse({ error: "Unknown action: " + action });
     }
   } catch (err) {
-    return jsonResponse({ error: err.message });
+    return jsonResponse({ error: err.message, stack: err.stack });
   }
 }
 
 // ─────────────────────────────────────────────
-// POST →  body: { action: "submitDSR", dsr_date, retailer_txns, credit_txns, debit_txns, remark_txns }
+// POST →  { action:"submitDSR", dsr_date, retailer_txns[], credit_txns[], debit_txns[], remark_txns[] }
 // ─────────────────────────────────────────────
 function doPost(e) {
   try {
+    if (!e || !e.postData || !e.postData.contents) {
+      return jsonResponse({ error: "No POST body received" });
+    }
     var payload = JSON.parse(e.postData.contents);
     var action = payload.action || "submitDSR";
 
@@ -53,169 +51,160 @@ function doPost(e) {
       return jsonResponse({ error: "Unknown action: " + action });
     }
   } catch (err) {
-    return jsonResponse({ error: err.message });
+    return jsonResponse({ error: err.message, stack: err.stack });
   }
 }
 
 // ─────────────────────────────────────────────
-// SUBMIT DSR — writes all 4 arrays to their sheets
+// SUBMIT — writes all 4 transaction arrays to their sheets
 // ─────────────────────────────────────────────
 function submitDSR(p) {
   var dsrDate = p.dsr_date || "";
+  if (!dsrDate) return { error: "dsr_date is required" };
 
-  if (p.retailer_txns && Array.isArray(p.retailer_txns)) {
+  var result = {
+    status: "success",
+    dsr_date: dsrDate,
+    retailer_rows: 0,
+    credit_rows: 0,
+    debit_rows: 0,
+    remark_rows: 0
+  };
+
+  if (Array.isArray(p.retailer_txns) && p.retailer_txns.length > 0) {
     writeRetailerTxns(dsrDate, p.retailer_txns);
+    result.retailer_rows = p.retailer_txns.length;
   }
-  if (p.credit_txns && Array.isArray(p.credit_txns)) {
+  if (Array.isArray(p.credit_txns) && p.credit_txns.length > 0) {
     writeCreditTxns(dsrDate, p.credit_txns);
+    result.credit_rows = p.credit_txns.length;
   }
-  if (p.debit_txns && Array.isArray(p.debit_txns)) {
+  if (Array.isArray(p.debit_txns) && p.debit_txns.length > 0) {
     writeDebitTxns(dsrDate, p.debit_txns);
+    result.debit_rows = p.debit_txns.length;
   }
-  if (p.remark_txns && Array.isArray(p.remark_txns)) {
+  if (Array.isArray(p.remark_txns) && p.remark_txns.length > 0) {
     writeRemarkTxns(dsrDate, p.remark_txns);
+    result.remark_rows = p.remark_txns.length;
   }
 
-  return { status: "success", message: "DSR submitted for " + dsrDate };
+  return result;
 }
 
 // ─────────────────────────────────────────────
-// Write Retailer_Txn rows
-// Columns: id, dsr_date, time, retailer, forward, reverse, pg_stock, credit
+// Retailer_Txn  — id | dsr_date | time | retailer | forward | reverse | pg_stock | credit
 // ─────────────────────────────────────────────
 function writeRetailerTxns(dsrDate, rows) {
   var sheet = getOrCreateSheet(SHEET_RETAILER_TXN,
     ["id", "dsr_date", "time", "retailer", "forward", "reverse", "pg_stock", "credit"]);
-
   rows.forEach(function(r) {
     sheet.appendRow([
-      r.id || "",
+      r.id    || "",
       dsrDate,
-      r.time || "",
+      r.time  || "",
       r.retailer || "",
-      r.forward || 0,
-      r.reverse || 0,
-      r.pgStock || 0,
-      r.credit || 0
+      Number(r.forward) || 0,
+      Number(r.reverse) || 0,
+      Number(r.pgStock) || 0,
+      Number(r.credit)  || 0
     ]);
   });
 }
 
 // ─────────────────────────────────────────────
-// Write Credit_Txn rows
-// Columns: id, dsr_date, time, particular, amount
+// Credit_Txn  — id | dsr_date | time | particular | amount
 // ─────────────────────────────────────────────
 function writeCreditTxns(dsrDate, rows) {
   var sheet = getOrCreateSheet(SHEET_CREDIT_TXN,
     ["id", "dsr_date", "time", "particular", "amount"]);
-
   rows.forEach(function(r) {
     sheet.appendRow([
       r.id || "",
       dsrDate,
       r.time || "",
       r.particular || "",
-      r.amount || 0
+      Number(r.amount) || 0
     ]);
   });
 }
 
 // ─────────────────────────────────────────────
-// Write Debit_Txn rows
-// Columns: id, dsr_date, time, particular, amount
+// Debit_Txn  — id | dsr_date | time | particular | amount
 // ─────────────────────────────────────────────
 function writeDebitTxns(dsrDate, rows) {
   var sheet = getOrCreateSheet(SHEET_DEBIT_TXN,
     ["id", "dsr_date", "time", "particular", "amount"]);
-
   rows.forEach(function(r) {
     sheet.appendRow([
       r.id || "",
       dsrDate,
       r.time || "",
       r.particular || "",
-      r.amount || 0
+      Number(r.amount) || 0
     ]);
   });
 }
 
 // ─────────────────────────────────────────────
-// Write Remark_Txn rows
-// Columns: id, dsr_date, time, remark, amount
+// Remark_Txn  — id | dsr_date | time | remark | amount
 // ─────────────────────────────────────────────
 function writeRemarkTxns(dsrDate, rows) {
   var sheet = getOrCreateSheet(SHEET_REMARK_TXN,
     ["id", "dsr_date", "time", "remark", "amount"]);
-
   rows.forEach(function(r) {
     sheet.appendRow([
       r.id || "",
       dsrDate,
       r.time || "",
       r.remark || "",
-      r.amount || 0
+      Number(r.amount) || 0
     ]);
   });
 }
 
 // ─────────────────────────────────────────────
-// GET summary totals for a given date
-// Returns: { dsr_date, retailer_count, credit_total, debit_total, remark_count }
+// GET summary for a date
 // ─────────────────────────────────────────────
 function getSummary(date) {
   if (!date) return { error: "date parameter required" };
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-
-  var retailerCount = countRowsByDate(ss, SHEET_RETAILER_TXN, date);
-  var creditTotal   = sumAmountByDate(ss, SHEET_CREDIT_TXN, date);
-  var debitTotal    = sumAmountByDate(ss, SHEET_DEBIT_TXN, date);
-  var remarkCount   = countRowsByDate(ss, SHEET_REMARK_TXN, date);
-
   return {
-    dsr_date: date,
-    retailer_count: retailerCount,
-    credit_total: creditTotal,
-    debit_total: debitTotal,
-    remark_count: remarkCount
+    dsr_date:       date,
+    retailer_count: countRowsByDate(ss, SHEET_RETAILER_TXN, date),
+    credit_total:   sumAmountByDate(ss, SHEET_CREDIT_TXN, date),
+    debit_total:    sumAmountByDate(ss, SHEET_DEBIT_TXN, date),
+    remark_count:   countRowsByDate(ss, SHEET_REMARK_TXN, date)
   };
 }
 
-// Count data rows where column index 1 (dsr_date) matches
 function countRowsByDate(ss, sheetName, date) {
   var sheet = ss.getSheetByName(sheetName);
   if (!sheet || sheet.getLastRow() < 2) return 0;
   var col = sheet.getRange(2, 2, sheet.getLastRow() - 1, 1).getValues();
-  return col.filter(function(r) { return String(r[0]) === date; }).length;
+  return col.filter(function(r) { return String(r[0]) === String(date); }).length;
 }
 
-// Sum column index 4 (amount) where column index 1 (dsr_date) matches
 function sumAmountByDate(ss, sheetName, date) {
   var sheet = ss.getSheetByName(sheetName);
   if (!sheet || sheet.getLastRow() < 2) return 0;
   var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 5).getValues();
   return rows
-    .filter(function(r) { return String(r[1]) === date; })
+    .filter(function(r) { return String(r[1]) === String(date); })
     .reduce(function(sum, r) { return sum + (parseFloat(r[4]) || 0); }, 0);
 }
 
 // ─────────────────────────────────────────────
-// GET last N DSR dates (unique dates from Retailer_Txn)
+// GET last N unique DSR dates
 // ─────────────────────────────────────────────
 function getDSRList(limit) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss   = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(SHEET_RETAILER_TXN);
   if (!sheet || sheet.getLastRow() < 2) return [];
-
-  var col = sheet.getRange(2, 2, sheet.getLastRow() - 1, 1).getValues();
-  var dates = [];
-  var seen = {};
+  var col   = sheet.getRange(2, 2, sheet.getLastRow() - 1, 1).getValues();
+  var dates = [], seen = {};
   for (var i = col.length - 1; i >= 0; i--) {
     var d = String(col[i][0]);
-    if (d && !seen[d]) {
-      seen[d] = true;
-      dates.push(d);
-      if (dates.length >= limit) break;
-    }
+    if (d && !seen[d]) { seen[d] = true; dates.push(d); if (dates.length >= limit) break; }
   }
   return dates.map(function(d) { return { dsr_date: d }; });
 }
@@ -236,11 +225,13 @@ function getRetailers() {
 // Helpers
 // ─────────────────────────────────────────────
 function getOrCreateSheet(name, headers) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss    = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(name);
   if (!sheet) {
     sheet = ss.insertSheet(name);
     sheet.appendRow(headers);
+    // Freeze header row
+    sheet.setFrozenRows(1);
   }
   return sheet;
 }

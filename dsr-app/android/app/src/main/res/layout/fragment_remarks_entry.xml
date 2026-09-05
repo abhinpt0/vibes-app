@@ -97,6 +97,19 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Empty state -->
+        <TextView
+            android:id="@+id/tv_remarks_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="No remarks yet.\nTap ADD REMARK to get started."
+            android:textSize="14sp"
+            android:textColor="#AAAAAA"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp" />
+
         <!-- Entry List -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_remark_txns"

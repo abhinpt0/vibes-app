@@ -41,12 +41,16 @@ class RemarksEntryFragment : Fragment() {
         binding.tvRemarksDate.text = dsrDate
 
         val listAdapter = RemarkTxnAdapter(
-            onDelete = { txn -> vm.deleteRemark(txn) }
+            onDelete = { txn -> confirmDelete(txn) }
         )
         binding.rvRemarkTxns.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRemarkTxns.adapter = listAdapter
 
-        vm.getRemarkTxns(dsrDate).observe(viewLifecycleOwner) { listAdapter.submitList(it) }
+        vm.getRemarkTxns(dsrDate).observe(viewLifecycleOwner) {
+            listAdapter.submitList(it)
+            binding.tvRemarksEmpty.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            binding.rvRemarkTxns.visibility   = if (it.isEmpty()) View.GONE  else View.VISIBLE
+        }
 
         binding.btnAddRemark.setOnClickListener {
             val remark = binding.etRemark.text.toString().trim()
@@ -77,6 +81,15 @@ class RemarksEntryFragment : Fragment() {
     }
 
     // ── Adapter ───────────────────────────────────────────────────────────────
+
+    private fun confirmDelete(txn: RemarkTxn) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Remark")
+            .setMessage("Delete: \"${txn.remark}\"?")
+            .setPositiveButton("DELETE") { _, _ -> vm.deleteRemark(txn) }
+            .setNegativeButton("CANCEL", null)
+            .show()
+    }
 
     inner class RemarkTxnAdapter(
         private val onDelete: (RemarkTxn) -> Unit

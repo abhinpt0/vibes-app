@@ -80,12 +80,16 @@ class DebitEntryFragment : Fragment() {
 
         val listAdapter = DebitTxnAdapter(
             onEdit = { txn -> showEditDialog(txn) },
-            onDelete = { txn -> vm.deleteDebit(txn) }
+            onDelete = { txn -> confirmDelete(txn) }
         )
         binding.rvDebitTxns.layoutManager = LinearLayoutManager(requireContext())
         binding.rvDebitTxns.adapter = listAdapter
 
-        vm.getDebitTxns(dsrDate).observe(viewLifecycleOwner) { listAdapter.submitList(it) }
+        vm.getDebitTxns(dsrDate).observe(viewLifecycleOwner) {
+            listAdapter.submitList(it)
+            binding.tvDebitEmpty.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            binding.rvDebitTxns.visibility  = if (it.isEmpty()) View.GONE  else View.VISIBLE
+        }
 
         binding.btnAddDebit.setOnClickListener {
             val selectedItem = binding.spinnerDebitParticular.selectedItem.toString()
@@ -170,6 +174,15 @@ class DebitEntryFragment : Fragment() {
     }
 
     // ── Adapter ───────────────────────────────────────────────────────────────
+
+    private fun confirmDelete(txn: DebitTxn) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Entry")
+            .setMessage("Delete debit entry: ${txn.particular} — ₹${txn.amount.toLong()}?")
+            .setPositiveButton("DELETE") { _, _ -> vm.deleteDebit(txn) }
+            .setNegativeButton("CANCEL", null)
+            .show()
+    }
 
     inner class DebitTxnAdapter(
         private val onEdit: (DebitTxn) -> Unit,

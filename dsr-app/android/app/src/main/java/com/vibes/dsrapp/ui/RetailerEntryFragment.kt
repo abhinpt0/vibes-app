@@ -61,13 +61,15 @@ class RetailerEntryFragment : Fragment() {
         // RecyclerView
         val listAdapter = RetailerTxnAdapter(
             onEdit = { txn -> showEditDialog(txn) },
-            onDelete = { txn -> vm.deleteRetailer(txn) }
+            onDelete = { txn -> confirmDelete(txn) }
         )
         binding.rvRetailerTxns.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRetailerTxns.adapter = listAdapter
 
         vm.getRetailerTxns(dsrDate).observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
+            binding.tvRetailerEmpty.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            binding.rvRetailerTxns.visibility  = if (it.isEmpty()) View.GONE  else View.VISIBLE
         }
 
         // Add Entry
@@ -149,6 +151,15 @@ class RetailerEntryFragment : Fragment() {
     }
 
     // ── Adapter ───────────────────────────────────────────────────────────────
+
+    private fun confirmDelete(txn: RetailerTxn) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Entry")
+            .setMessage("Delete the entry for ${txn.retailer}?")
+            .setPositiveButton("DELETE") { _, _ -> vm.deleteRetailer(txn) }
+            .setNegativeButton("CANCEL", null)
+            .show()
+    }
 
     inner class RetailerTxnAdapter(
         private val onEdit: (RetailerTxn) -> Unit,
